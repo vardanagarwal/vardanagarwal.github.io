@@ -1,0 +1,1510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>data_handling.modifications API documentation</title>
+<meta name="description" content="Functions to do modifications on the dataset like removing small annotations,
+applying augmentations, RATT, or using SimCLR to generate diverse data …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>data_handling.modifications</code></h1>
+</header>
+<section id="section-intro">
+<p>Functions to do modifications on the dataset like removing small annotations,
+applying augmentations, RATT, or using SimCLR to generate diverse data and removing redundant data.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Functions to do modifications on the dataset like removing small annotations,
+    applying augmentations, RATT, or using SimCLR to generate diverse data and removing redundant data.&#34;&#34;&#34;
+import json
+import os
+import random
+import shutil
+import subprocess
+
+import cv2
+import numpy as np
+import pandas as pd
+from tqdm import tqdm
+
+def remove_small_annotations(annotation_file, output_annotation_file, categories, category_ratios):
+    &#34;&#34;&#34;Removes annotations that are smaller than the specified ratio compared to the image size
+
+    Args:
+        annotation_file (str): path to the annotation file
+        output_annotation_file (str): path to the output annotation file
+        categories (list of strings): list of categories to remove annotations from.
+        category_ratios (list of float): list of categories ratios to use as threshold.
+
+        Example for sb2:
+        categories = [&#39;fire&#39;, &#39;smoke&#39;, &#39;person&#39;, &#39;person_with_head_gear&#39;, &#39;person_with_helmet&#39;, &#39;person_with_hardhat&#39;, # first is none as ids start from 1
+        &#39;backpack&#39;, &#39;handbag&#39;, &#39;suitcase&#39;, &#39;laptop&#39;, &#39;cell_phone&#39;, &#39;car&#39;, &#39;truck&#39;, &#39;motorcycle&#39;, &#39;bicycle&#39;, &#39;bus&#39;,
+        &#39;person_with_gloves&#39;, &#39;person_with_safety_googles&#39;, &#39;safety_vest&#39;, &#39;forklift&#39;, &#39;atm&#39;, &#39;helmet&#39;]
+        category_ratios = [0, 0.0015, 0.0015, 0.0015, 0.0003, 0.0003, 0.0003,
+        0.00075, 0.00075, 0.00075, 0.0003, 0.00015, 0.0015, 0.003, 0.0012, 0.0012, 0.003,
+        0.00015, 0.00015, 0.00075, 0.0015, 0.0015, 0.0003]
+    &#34;&#34;&#34;
+    data = json.load(open(annotation_file))
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+    categories_dict = {}
+    for cat in data[&#39;categories&#39;]:
+        if cat[&#39;name&#39;] in categories:
+            categories_dict[cat[&#39;id&#39;]] = [category_ratios[categories.index(cat[&#39;name&#39;])], 0, cat[&#39;name&#39;]]
+
+    image_dict = {}
+    for image in images:
+        image_dict[image[&#39;id&#39;]] = (image[&#39;width&#39;] * image[&#39;height&#39;], image[&#39;file_name&#39;])
+
+    annotation_list = []
+    for annotation in tqdm(annotations):
+        if annotation[&#39;category_id&#39;] in categories_dict.keys() and annotation[&#39;area&#39;] &lt; image_dict[annotation[&#39;image_id&#39;]][0] * categories_dict[annotation[&#39;category_id&#39;]][0]:
+            categories_dict[annotation[&#39;category_id&#39;]][1] += 1
+        else:
+            annotation_list.append(annotation)
+
+    data[&#39;annotations&#39;] = annotation_list
+    with open(output_annotation_file, &#39;w&#39;) as f:
+        json.dump(data, f)
+
+    print(&#39;categories removed&#39;)
+    for val in categories_dict.values():
+        print(&#34;%s: %d&#34; % (val[2], val[1]))
+
+def visualize_small_annotations(image_folder, annotation_file, categories, category_ratios, category_colors=None):
+    &#34;&#34;&#34;Visualizes annotations that are smaller than the specified ratio compared to the image size
+
+    Args:
+        image_folder (str): path to the folder containing the images
+        annotation_file (str): path to the annotation file
+        categories (list of str): list of categories to remove annotations from.
+        category_ratios (list of float): list of categories ratios to use as threshold.
+        category_colors (list of tuples, optional): list of color tuples to use for drawing on image per category. Defaults to None.
+
+        Example for sb2:
+        cats = [&#39;fire&#39;, &#39;smoke&#39;, &#39;person&#39;, &#39;person_with_head_gear&#39;, &#39;person_with_helmet&#39;, &#39;person_with_hardhat&#39;, # first is none as ids start from 1
+        &#39;backpack&#39;, &#39;handbag&#39;, &#39;suitcase&#39;, &#39;laptop&#39;, &#39;cell_phone&#39;, &#39;car&#39;, &#39;truck&#39;, &#39;motorcycle&#39;, &#39;bicycle&#39;, &#39;bus&#39;,
+        &#39;person_with_gloves&#39;, &#39;person_with_safety_googles&#39;, &#39;safety_vest&#39;, &#39;forklift&#39;, &#39;atm&#39;, &#39;helmet&#39;]
+        category_ratios = [0.0015, 0.0015, 0.0015, 0.0003, 0.0003, 0.0003, # first is zero as ids start from 1
+            0.00075, 0.00075, 0.00075, 0.0003, 0.00015, 0.0015, 0.003, 0.0012, 0.0012, 0.003,
+            0.00015, 0.00015, 0.00075, 0.0015, 0.0015, 0.0003]
+        r, g, b, y = (0, 0, 255), (0, 255, 0), (255, 0, 0), (0, 255, 255)
+        category_colors = [b, b, g, r, r, r,
+            b, b, b, b, b, y, y, y, y, y,
+            r, r, r, y, y, r]
+    &#34;&#34;&#34;
+    data = json.load(open(annotation_file))
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+    categories_dict = {}
+    category_colors = category_colors if category_colors is not None else [(0, 0, 255)] * len(categories)
+    for cat in data[&#39;categories&#39;]:
+        if cat[&#39;name&#39;] in categories:
+            categories_dict[cat[&#39;id&#39;]] = (category_ratios[categories.index(cat[&#39;name&#39;])],
+                                          cat[&#39;name&#39;],
+                                          category_colors[categories.index(cat[&#39;name&#39;])])
+    image_dict = {}
+    for image in images:
+        image_dict[image[&#39;id&#39;]] = (image[&#39;width&#39;] * image[&#39;height&#39;], image[&#39;file_name&#39;])
+
+    for annotation in annotations:
+        if annotation[&#39;category_id&#39;] in categories_dict.keys() and annotation[&#39;area&#39;] &lt; image_dict[annotation[&#39;image_id&#39;]][0] * categories_dict[annotation[&#39;category_id&#39;]][0]:
+    
+            img = cv2.imread(os.path.join(image_folder, image_dict[annotation[&#39;image_id&#39;]][1]))
+            bbox = annotation[&#39;bbox&#39;]
+            h, w = img.shape[:2]
+            cv2.rectangle(img, (int(bbox[0]), int(bbox[1])), (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3])), categories_dict[annotation[&#39;category_id&#39;]][2], 2)
+            cv2.putText(img, categories_dict[annotation[&#39;category_id&#39;]][1], (int(w/2), int(h/2)), cv2.FONT_HERSHEY_SIMPLEX, 1, categories_dict[annotation[&#39;category_id&#39;]][2], 1)
+            
+            if max(h, w) &gt; 1024:
+                ratio = 1024 / max(h, w)
+                img = cv2.resize(img, None, fx = ratio, fy = ratio)
+            cv2.imshow(&#39;image&#39;, img)
+            if cv2.waitKey(0) &amp; 0xFF == ord(&#39;q&#39;):
+                break
+    cv2.destroyAllWindows()
+
+def simclr_train(folder, checkpoint=&#39;trained_simclr.ckpt&#39;, batch_size=8, input_size=64, epochs=100):
+    &#34;&#34;&#34;Trains a SimCLR model
+    
+    Args:
+        folder (str): path to the folder containing the images
+        checkpoint (str, optional): path to the checkpoint file to save the model. Defaults to &#39;trained_simclr.ckpt&#39;.
+        batch_size (int, optional): batch size to use for training. Defaults to 8. Use as big as possible.
+        input_size (int, optional): size of the input image. Defaults to 64. Use as big as possible.
+        epochs (int, optional): number of epochs to train the model. Defaults to 100.
+    &#34;&#34;&#34;
+    import lightly
+
+    if checkpoint[-5:] != &#39;.ckpt&#39;:
+        print(&#39;checkpoint must be a .ckpt file&#39;)
+        return
+    ckpt = lightly.train_embedding_model(input_dir=folder, loader={&#39;batch_size&#39;: batch_size}, collate={&#39;input_size&#39;: input_size}, trainer={&#39;max_epochs&#39;: epochs})
+    os.rename(ckpt, checkpoint)
+
+def simclr_generate_data(folder, num_cluster, output_folder, checkpoint=&#39;whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;, batch_size=16, input_size=256):
+    &#34;&#34;&#34;Generates data for a SimCLR model using KMeans clustering to pick the most representative images
+    
+    Args:
+        folder (str): path to the folder containing the images
+        num_cluster (int): number of clusters to use for KMeans clustering. Per cluster one image is chosen hence size is equal to num_clusters.
+        output_folder (str): path to the folder to save the generated data.
+        checkpoint (str, optional): path to the checkpoint file to load the model. Defaults to &#39;whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;.
+        batch_size (int, optional): batch size to use for inference. Defaults to 16.
+        input_size (int, optional): size of the input image. Defaults to 256.
+    &#34;&#34;&#34;
+
+    import lightly
+    from sklearn.cluster import KMeans
+
+    if not os.path.isfile(checkpoint):
+        import wget
+        print(&#39;checkpoint not found, downloading&#39;)
+        wget.download(&#39;https://storage.googleapis.com/models_boris/whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;)
+    embeddings, _, filenames = lightly.embed_images(checkpoint, input_dir=folder, collate={&#39;input_size&#39;: input_size}, loader={&#39;batch_size&#39;: batch_size})
+
+    df = pd.DataFrame(embeddings)
+    X = df.to_numpy()
+
+    clusters = min(num_cluster, len(os.listdir(folder)))
+    Kmean = KMeans(n_clusters=clusters, max_iter=500)
+    Kmean.fit(X)
+    centers = Kmean.cluster_centers_
+    res = list(Kmean.predict(X))
+
+    Dict = {}
+    for i in range(clusters):
+        Dict[i] = [10**6, &#39;&#39;]
+
+    for x, cluster, filename in zip(X, res, filenames):
+        # print(x, centers[cluster], filename)
+        val = sum([(i - j)**2 for i, j in zip(x, centers[cluster])]) ** 0.5
+        if Dict[cluster][0] &gt; val:
+            Dict[cluster] = [val, filename]
+
+    if not os.path.exists(output_folder):
+        os.mkdir(output_folder)
+
+    for _, filename in Dict.values():
+        shutil.copy(os.path.join(folder, filename), os.path.join(output_folder, filename))
+
+def simclr_remove_same_data(folder, output_folder, files_removed_folder=None, distance=0.9985, checkpoint=&#39;whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;, batch_size=16, input_size=256):
+    &#34;&#34;&#34;Removes similar images from a folder using cosing distance
+    
+    Args:
+        folder (str): path to the folder containing the images
+        output_folder (str): path to the folder to save the distinct data.
+        files_removed_folder (str, optional): path to the folder to save the removed images. Saved only is some value passed. Defaults to None.
+        distance (float, optional): distance to use for cosine distance. Defaults to 0.9985.
+        checkpoint (str, optional): path to the checkpoint file to load the model. Defaults to &#39;whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;.
+        batch_size (int, optional): batch size to use for inference. Defaults to 16.
+        input_size (int, optional): size of the input image. Defaults to 256.&#34;&#34;&#34;
+    import lightly
+    from sklearn.metrics.pairwise import cosine_similarity
+
+    if not os.path.exists(output_folder):
+        os.mkdir(output_folder)
+    if files_removed_folder is not None and not os.path.exists(files_removed_folder):
+        os.mkdir(files_removed_folder)
+
+    if not os.path.isfile(checkpoint):
+        import wget
+        print(&#39;checkpoint not found, downloading&#39;)
+        wget.download(&#39;https://storage.googleapis.com/models_boris/whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;)
+    embeddings, _, filenames = lightly.embed_images(checkpoint, input_dir=folder, collate={&#39;input_size&#39;: input_size}, loader={&#39;batch_size&#39;: batch_size})
+
+    df = pd.DataFrame(embeddings)
+    res = cosine_similarity(df)
+    files_to_use = []
+    files_not_to_use = []
+    Dict = {}
+    for i, row in enumerate(tqdm(res)):
+        if i in files_not_to_use:
+            continue
+        files_to_use.append(i)
+        for j in range(i+1, len(row)):
+            if i != j and row[j] &gt;= distance:
+                files_not_to_use.append(j)
+                if i not in Dict.keys():
+                    Dict[i] = [(j, row[j])]
+                else:
+                    Dict[i].append((j, row[j]))
+
+    files_not_to_use = list(set(files_not_to_use))
+    files_to_use = list(set(files_to_use))
+
+    print(&#39;Number of files removed:&#39;, len(files_not_to_use))
+
+    if files_removed_folder is not None:
+        for i in files_not_to_use:
+            shutil.copy(os.path.join(folder, filenames[i]), os.path.join(files_removed_folder, filenames[i]))
+    for i in files_to_use:
+        shutil.copy(os.path.join(folder, filenames[i]), os.path.join(output_folder, filenames[i]))
+
+def ratt(annotation_file, output_annotation_file, random_percentage=5, max_num_per_image=6, category_size={}):
+    &#34;&#34;&#34;Generates random annotations for a some percentage of the dataset
+    
+    Args:
+        annotation_file (str): path to the annotation file.
+        output_annotation_file (str): path to the output annotation file.
+        random_percentage (int, optional): percentage of the dataset to generate random annotations. Defaults to 5.
+        max_num_per_image (int, optional): maximum number of random annotations per image. Defaults to 6.
+        category_size (dict, optional): dictionary containing the minimum and maximum width and height of each annotation. Defaults to {}.
+            Example: {&#39;person&#39;: [50, 100, 150, 350]} # minimum width, maximum width, minimum height, maximum height
+    &#34;&#34;&#34;
+    data = json.load(open(annotation_file))
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+    categories = data[&#39;categories&#39;]
+    image_ids = []
+    widths = []
+    heights = []
+    for image in images:
+        if random.random() &gt; (1 - random_percentage / 100) and image[&#39;file_name&#39;].find(&#39;val&#39;) == -1:
+            image_ids.append(image[&#39;id&#39;])
+            widths.append(image[&#39;width&#39;])
+            heights.append(image[&#39;height&#39;])
+    print(&#39;Number of images selected for random annotations:&#39;, len(image_ids))
+
+    max_id = 0
+    annotation_list = []
+    for annotation in annotations:
+        max_id = max(annotation[&#39;id&#39;], max_id)
+        if annotation[&#39;image_id&#39;] not in image_ids:
+            annotation_list.append(annotation)
+
+    category_dict = {}
+    category_ids = []
+    for category in categories:
+        if category[&#39;name&#39;] in category_size.keys():
+            category_dict[category[&#39;id&#39;]] = category_size[category[&#39;name&#39;]]
+        category_ids.append(category[&#39;id&#39;])
+
+    for width, height, image_id in zip(widths, heights, image_ids):
+        for i in range(random.randint(0, max_num_per_image)):
+            max_id += 1
+            category = random.choice(category_ids)
+            x0 = random.randint(0, width)
+            y0 = random.randint(0, height)
+            if category not in category_dict.keys():
+                width_x = random.randint(50, width - 50)
+                height_y = random.randint(50, height - 50)
+            else:
+                width_x = random.randint(max(category_dict[category][0], 0), min(category_dict[category][1], width))
+                height_y = random.randint(max(category_dict[category][2]), min(category_dict[category][3], height))
+
+            if x0 + width_x &gt; width - 1:
+                if random.random() &gt; 0.5:
+                    x0 = width - width_x - 1
+                else:
+                    width_x = width - x0 - 1
+
+            if y0 + height_y &gt; height - 1:
+                if random.random() &gt; 0.5:
+                    y0 = height - height_y - 1
+                else:
+                    height_y = height - y0 - 1
+            
+            
+            Dict = {
+                        &#34;id&#34;: max_id,
+                        &#34;image_id&#34;: image_id,
+                        &#34;category_id&#34;: category,
+                        &#34;segmentation&#34;: [],
+                        &#34;area&#34;: width_x * height_y,
+                        &#34;bbox&#34;: 
+                        [
+                            x0,
+                            y0,
+                            width_x,
+                            height_y
+                        ],
+                        &#34;iscrowd&#34;: 0,
+                        &#34;attributes&#34;: 
+                        {
+                            &#34;occluded&#34;: False
+                        }
+                    }   
+            annotation_list.append(Dict)
+    data[&#39;annotations&#39;] = annotation_list
+    with open(output_annotation_file, &#34;w&#34;) as outfile:
+        json.dump(data, outfile)
+
+def __check_occurrence(key, Dict):
+    if key in Dict.keys():
+        return Dict[key]
+    Dict = {
+        &#39;GaussianBlur&#39;: 0.35,
+        &#39;CLAHE&#39;: 0.35,
+        &#39;GlassBlur&#39;: 0.35,
+        &#39;Equalize&#39;: 0.35,
+        &#39;ISONoise&#39;: 0.35,
+        &#39;MotionBlur&#39;: 0.35,
+        &#39;Posterize&#39;: 0.35,
+        &#39;RandomBrightnessContrast&#39;: 0.35,
+        &#39;GaussNoise&#39;: 0.35,
+        &#39;ImageCompression&#39;: 0.35,
+        &#39;ChannelShuffle&#39;: 0.15,
+        &#39;RandomToneCurve&#39;: 0.35,
+        &#39;RGBShift&#39;: 0.35,
+        &#39;FDA&#39;: 0.15
+        }
+    return Dict[key]
+
+def augment(folder, annotation_file, output_folder, image_percentage=50, prob_dict={
+    &#39;GaussianBlur&#39;: 0.35,
+    &#39;CLAHE&#39;: 0.35,
+    &#39;GlassBlur&#39;: 0.35,
+    &#39;Equalize&#39;: 0.35,
+    &#39;ISONoise&#39;: 0.35,
+    &#39;MotionBlur&#39;: 0.35,
+    &#39;Posterize&#39;: 0.35,
+    &#39;RandomBrightnessContrast&#39;: 0.35,
+    &#39;GaussNoise&#39;: 0.35,
+    &#39;ImageCompression&#39;: 0.35,
+    &#39;ChannelShuffle&#39;: 0.15,
+    &#39;RandomToneCurve&#39;: 0.35,
+    &#39;RGBShift&#39;: 0.35,
+    &#39;FDA&#39;: 0.15
+}):
+    &#34;&#34;&#34;Augments the dataset with some random transformations
+
+    Args:
+        folder (str): path to the folder containing the images.
+        annotation_file (str): path to the annotation file.
+        output_folder (str): path to the output folder.
+        image_percentage (int, optional): percentage of the dataset to augment. These many images will be duplicated and augmented. Defaults to 50. 
+        prob_dict (dict, optional): dictionary containing the probabilities of each augmentation being applied. If any augmentation is not specified in dictionary these default values will be used for that.
+        Defaults to {&#39;GaussianBlur&#39;: 0.35,
+                     &#39;CLAHE&#39;: 0.35,
+                     &#39;GlassBlur&#39;: 0.35, 
+                     &#39;Equalize&#39;: 0.35,
+                     &#39;ISONoise&#39;: 0.35,
+                     &#39;MotionBlur&#39;: 0.35, 
+                     &#39;Posterize&#39;: 0.35, 
+                     &#39;RandomBrightnessContrast&#39;: 0.35, 
+                     &#39;GaussNoise&#39;: 0.35, 
+                     &#39;ImageCompression&#39;: 0.35, 
+                     &#39;ChannelShuffle&#39;: 0.15, 
+                     &#39;RandomToneCurve&#39;: 0.35, 
+                     &#39;RGBShift&#39;: 0.35, 
+                     &#39;FDA&#39;: 0.15}.
+    &#34;&#34;&#34;
+    import albumentations as A
+    import wget
+
+    if not os.path.exists(&#39;fda_target_images&#39;):
+        os.mkdir(&#39;fda_target_images&#39;)
+    wget.download(&#39;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkhfbtiVKOKUsR5QAJl33QPaSlve-I7YHraw&amp;usqp=CAU&#39;, out=&#39;fda_target_images/one.jpg&#39;)
+    wget.download(&#39;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0z3NrgPhY8Vpn-RWG7Kl7PcAxejMsBpO-Hg&amp;usqp=CAU&#39;, out=&#39;fda_target_images/two.jpg&#39;)
+
+    data = json.load(open(annotation_file))
+    categories = data[&#39;categories&#39;]
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+
+    cat_dict = {}
+    for category in categories:
+        cat_dict[category[&#39;id&#39;]] = category[&#39;name&#39;]
+
+    image_dict = {}
+    for image in images:
+        image_dict[image[&#39;id&#39;]] = image[&#39;file_name&#39;]
+
+    albumentation = {}
+    for image in images:
+        albumentation[image_dict[image[&#39;id&#39;]]] = []
+
+    for annotation in annotations:
+        bbox = annotation[&#39;bbox&#39;]
+        bbox.append(cat_dict[annotation[&#39;category_id&#39;]])
+        albumentation[image_dict[annotation[&#39;image_id&#39;]]].append(bbox)
+
+    sample_images = list(albumentation.keys())
+    image_id = 1
+    annotation_id = 1
+    image_dict = []
+    annotation_dict = []
+
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    if not os.path.exists(os.path.join(output_folder, &#39;images&#39;)):
+        os.makedirs(os.path.join(output_folder, &#39;images&#39;))
+    if not os.path.exists(os.path.join(output_folder, &#39;annotations&#39;)):
+        os.makedirs(os.path.join(output_folder, &#39;annotations&#39;))
+    
+    for image in tqdm(sample_images, desc=&#39;Augmenting images&#39;):
+        img = cv2.imread(os.path.join(folder, image))
+        height, width = img.shape[:2]
+        bbox_label = albumentation[image]
+
+        for i, bbox_lab in enumerate(bbox_label):
+            if bbox_lab[0] + bbox_lab[2] &gt; width:
+                bbox_label[i][2] = width - bbox_lab[0]
+            if bbox_lab[1] + bbox_lab[3] &gt; height:
+                bbox_label[i][3] = height - bbox_lab[1]
+
+        file_name = image
+        cv2.imwrite(os.path.join(output_folder, &#39;images&#39;, file_name), img)
+
+        image_dict.append({&#34;id&#34;: image_id, &#34;width&#34;: width, &#34;height&#34;: height, &#34;file_name&#34;: file_name, &#34;license&#34;: 0, &#34;flickr_url&#34;: &#34;&#34;, &#34;coco_url&#34;: &#34;&#34;, &#34;date_captured&#34;: 0})
+        for bbox_lab in bbox_label:
+            bbox = bbox_lab[:-1]
+            class_name = bbox_lab[-1]
+            area = bbox_lab[2] * bbox_lab[3]
+            category_id = next(item for item in categories if item[&#39;name&#39;] == class_name)[&#39;id&#39;]
+            annotation_dict.append({&#34;id&#34;: annotation_id, &#34;image_id&#34;: image_id, &#34;category_id&#34;: category_id, &#34;segmentation&#34;: [], &#34;area&#34;: area, &#34;bbox&#34;: bbox, &#34;iscrowd&#34;: 0, &#34;attributes&#34;: {&#34;occluded&#34;: False}})
+            annotation_id += 1
+        image_id += 1
+
+        transform = A.Compose([
+            A.GaussianBlur(blur_limit=(5, 7), sigma_limit=1, p=__check_occurrence(&#39;GaussianBlur&#39;, prob_dict)),
+            A.CLAHE(clip_limit=6.0, tile_grid_size=(12, 12), p=__check_occurrence(&#39;CLAHE&#39;, prob_dict)),
+            A.GlassBlur(sigma=0.7, max_delta=2, iterations=1, p=__check_occurrence(&#39;GlassBlur&#39;, prob_dict)),
+            A.Equalize(p=__check_occurrence(&#39;Equalize&#39;, prob_dict)),
+            A.ISONoise(color_shift=(0.015, 0.06), intensity=(0.15, 0.6), p=__check_occurrence(&#39;ISONoise&#39;, prob_dict)),
+            A.MotionBlur(blur_limit=(5, 9), p=__check_occurrence(&#39;MotionBlur&#39;, prob_dict)),
+            A.Posterize(p=__check_occurrence(&#39;Posterize&#39;, prob_dict)),
+            A.RandomBrightnessContrast(brightness_limit=[0, 0.25], contrast_limit=[0, 0.25], p=__check_occurrence(&#39;RandomBrightnessContrast&#39;, prob_dict)),
+            A.GaussNoise(var_limit=(15, 55), p=__check_occurrence(&#39;GaussNoise&#39;, prob_dict)),
+            A.ImageCompression(quality_lower=10, quality_upper=25, p=__check_occurrence(&#39;ImageCompression&#39;, prob_dict)),
+            A.ChannelShuffle(p=__check_occurrence(&#39;ChannelShuffle&#39;, prob_dict)),
+            A.RandomToneCurve(scale=0.9, p=__check_occurrence(&#39;RandomToneCurve&#39;, prob_dict)),
+            A.RGBShift(p=__check_occurrence(&#39;RGBShift&#39;, prob_dict)),
+            A.FDA([&#39;fda_target_images/one.jpg&#39;, &#39;fda_target_images/two.jpg&#39;], beta_limit=0.05, p=__check_occurrence(&#39;FDA&#39;, prob_dict))
+        ], bbox_params=A.BboxParams(format=&#39;coco&#39;))
+
+        if random.random() &gt; image_percentage / 100 and file_name.find(&#39;val&#39;) == -1:
+            try:
+                random.seed(random.randint(0, 5000))
+                transformed = transform(image=img, bboxes=bbox_label)
+                transformed_image = transformed[&#39;image&#39;]
+                transformed_bboxes = transformed[&#39;bboxes&#39;]
+                file_name = image[:-4] + &#39;_aug&#39; + image[-4:]
+                cv2.imwrite(os.path.join(output_folder, &#39;images&#39;, file_name), transformed_image)
+                t_h, t_w = transformed_image.shape[:2]
+                image_dict.append({&#34;id&#34;: image_id, &#34;width&#34;: t_w, &#34;height&#34;: t_h, &#34;file_name&#34;: file_name, &#34;license&#34;: 0, &#34;flickr_url&#34;: &#34;&#34;, &#34;coco_url&#34;: &#34;&#34;, &#34;date_captured&#34;: 0})
+
+                for bbox_lab in transformed_bboxes:
+                    bbox = bbox_lab[:-1]
+                    class_name = bbox_lab[-1]
+                    area = bbox_lab[2] * bbox_lab[3]
+                    category_id = next(item for item in categories if item[&#39;name&#39;] == class_name)[&#39;id&#39;]
+                    annotation_dict.append({&#34;id&#34;: annotation_id, &#34;image_id&#34;: image_id, &#34;category_id&#34;: category_id, &#34;segmentation&#34;: [], &#34;area&#34;: area, &#34;bbox&#34;: bbox, &#34;iscrowd&#34;: 0, &#34;attributes&#34;: {&#34;occluded&#34;: False}})
+                    annotation_id += 1
+
+                image_id += 1
+            except:
+                pass
+
+    coco_annotation = {&#39;categories&#39;: categories,
+                       &#39;images&#39;: image_dict,
+                       &#39;annotations&#39;: annotation_dict}
+
+    with open(os.path.join(output_folder, &#39;annotations&#39;, &#39;annotation.json&#39;), &#39;w&#39;) as outfile:
+        json.dump(coco_annotation, outfile)
+
+
+def __visualize_bbox(img, bbox, class_name, thickness=2):
+    &#34;&#34;&#34;Visualizes a single bounding box on the image&#34;&#34;&#34;
+    BOX_COLOR = (255, 0, 0) # Blue
+    TEXT_COLOR = (255, 255, 255) # White
+    x_min, y_min, w, h = bbox
+    x_min, x_max, y_min, y_max = int(x_min), int(x_min + w), int(y_min), int(y_min + h)
+
+    cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=BOX_COLOR, thickness=thickness)
+
+    ((text_width, text_height), _) = cv2.getTextSize(class_name, cv2.FONT_HERSHEY_SIMPLEX, 0.35, 1)
+    cv2.rectangle(img, (x_min, y_min - int(1.3 * text_height)), (x_min + text_width, y_min), BOX_COLOR, -1)
+    cv2.putText(
+        img,
+        text=class_name,
+        org=(x_min, y_min - int(0.3 * text_height)),
+        fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+        fontScale=0.35,
+        color=TEXT_COLOR,
+        lineType=cv2.LINE_AA,
+    )
+    return img
+
+
+def __visualize(image, bboxes):
+    img = image.copy()
+    for bbox in (bboxes):
+        img = __visualize_bbox(img, bbox[:-1], bbox[-1])
+    return img
+
+def visualize_augment(folder, annotation_file, prob_dict={
+    &#39;GaussianBlur&#39;: 0.35,
+    &#39;CLAHE&#39;: 0.35,
+    &#39;GlassBlur&#39;: 0.35,
+    &#39;Equalize&#39;: 0.35,
+    &#39;ISONoise&#39;: 0.35,
+    &#39;MotionBlur&#39;: 0.35,
+    &#39;Posterize&#39;: 0.35,
+    &#39;RandomBrightnessContrast&#39;: 0.35,
+    &#39;GaussNoise&#39;: 0.35,
+    &#39;ImageCompression&#39;: 0.35,
+    &#39;ChannelShuffle&#39;: 0.15,
+    &#39;RandomToneCurve&#39;: 0.35,
+    &#39;RGBShift&#39;: 0.35,
+    &#39;FDA&#39;: 0.15
+}):
+    &#34;&#34;&#34;Visualizes the augmented images
+
+    Args:
+        folder (str): The folder where the images are stored
+        annotation_file (str): Path to the annotation file
+        prob_dict (dict, optional): dictionary containing the probabilities of each augmentation being applied. If any augmentation is not specified in dictionary these default values will be used for that.
+        Defaults to {&#39;GaussianBlur&#39;: 0.35,
+                     &#39;CLAHE&#39;: 0.35,
+                     &#39;GlassBlur&#39;: 0.35, 
+                     &#39;Equalize&#39;: 0.35,
+                     &#39;ISONoise&#39;: 0.35,
+                     &#39;MotionBlur&#39;: 0.35, 
+                     &#39;Posterize&#39;: 0.35, 
+                     &#39;RandomBrightnessContrast&#39;: 0.35, 
+                     &#39;GaussNoise&#39;: 0.35, 
+                     &#39;ImageCompression&#39;: 0.35, 
+                     &#39;ChannelShuffle&#39;: 0.15, 
+                     &#39;RandomToneCurve&#39;: 0.35, 
+                     &#39;RGBShift&#39;: 0.35, 
+                     &#39;FDA&#39;: 0.15}.
+    &#34;&#34;&#34;
+
+    import albumentations as A
+    import wget
+
+    if not os.path.exists(&#39;fda_target_images&#39;):
+        os.mkdir(&#39;fda_target_images&#39;)
+    if not os.path.isfile(&#39;fda_target_images/one.jpg&#39;):
+        wget.download(&#39;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkhfbtiVKOKUsR5QAJl33QPaSlve-I7YHraw&amp;usqp=CAU&#39;, out=&#39;fda_target_images/one.jpg&#39;)
+    if not os.path.isfile(&#39;fda_target_images/two.jpg&#39;):
+        wget.download(&#39;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0z3NrgPhY8Vpn-RWG7Kl7PcAxejMsBpO-Hg&amp;usqp=CAU&#39;, out=&#39;fda_target_images/two.jpg&#39;)
+
+    data = json.load(open(annotation_file))
+    categories = data[&#39;categories&#39;]
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+
+    cat_dict = {}
+    for category in categories:
+        cat_dict[category[&#39;id&#39;]] = category[&#39;name&#39;]
+
+    image_dict = {}
+    for image in images:
+        image_dict[image[&#39;id&#39;]] = image[&#39;file_name&#39;]
+
+    albumentation = {}
+    for image in images:
+        albumentation[image_dict[image[&#39;id&#39;]]] = []
+
+    for annotation in annotations:
+        bbox = annotation[&#39;bbox&#39;]
+        bbox.append(cat_dict[annotation[&#39;category_id&#39;]])
+        albumentation[image_dict[annotation[&#39;image_id&#39;]]].append(bbox)
+
+    sample_images = list(albumentation.keys())
+    
+    for image in sample_images:
+        img = cv2.imread(os.path.join(folder, image))
+        height, width = img.shape[:2]
+        bbox_label = albumentation[image]
+
+        for i, bbox_lab in enumerate(bbox_label):
+            if bbox_lab[0] + bbox_lab[2] &gt; width:
+                bbox_label[i][2] = width - bbox_lab[0]
+            if bbox_lab[1] + bbox_lab[3] &gt; height:
+                bbox_label[i][3] = height - bbox_lab[1]
+
+        transform = A.Compose([
+            A.GaussianBlur(blur_limit=(5, 7), sigma_limit=1, p=__check_occurrence(&#39;GaussianBlur&#39;, prob_dict)),
+            A.CLAHE(clip_limit=6.0, tile_grid_size=(12, 12), p=__check_occurrence(&#39;CLAHE&#39;, prob_dict)),
+            A.GlassBlur(sigma=0.7, max_delta=2, iterations=1, p=__check_occurrence(&#39;GlassBlur&#39;, prob_dict)),
+            A.Equalize(p=__check_occurrence(&#39;Equalize&#39;, prob_dict)),
+            A.ISONoise(color_shift=(0.015, 0.06), intensity=(0.15, 0.6), p=__check_occurrence(&#39;ISONoise&#39;, prob_dict)),
+            A.MotionBlur(blur_limit=(5, 9), p=__check_occurrence(&#39;MotionBlur&#39;, prob_dict)),
+            A.Posterize(p=__check_occurrence(&#39;Posterize&#39;, prob_dict)),
+            A.RandomBrightnessContrast(brightness_limit=[0, 0.25], contrast_limit=[0, 0.25], p=__check_occurrence(&#39;RandomBrightnessContrast&#39;, prob_dict)),
+            A.GaussNoise(var_limit=(15, 55), p=__check_occurrence(&#39;GaussNoise&#39;, prob_dict)),
+            A.ImageCompression(quality_lower=10, quality_upper=25, p=__check_occurrence(&#39;ImageCompression&#39;, prob_dict)),
+            A.ChannelShuffle(p=__check_occurrence(&#39;ChannelShuffle&#39;, prob_dict)),
+            A.RandomToneCurve(scale=0.9, p=__check_occurrence(&#39;RandomToneCurve&#39;, prob_dict)),
+            A.RGBShift(p=__check_occurrence(&#39;RGBShift&#39;, prob_dict)),
+            A.FDA([&#39;fda_target_images/one.jpg&#39;, &#39;fda_target_images/two.jpg&#39;], beta_limit=0.05, p=__check_occurrence(&#39;FDA&#39;, prob_dict))
+        ], bbox_params=A.BboxParams(format=&#39;coco&#39;))
+
+        random.seed(random.randint(0, 5000))
+        transformed = transform(image=img, bboxes=bbox_label)
+        transformed_image = transformed[&#39;image&#39;]
+        transformed_bboxes = transformed[&#39;bboxes&#39;]
+        augmented = __visualize(transformed_image, transformed_bboxes)
+        cv2.imshow(&#39;original&#39;, img)
+        cv2.imshow(&#39;augmented&#39;, augmented)
+        if cv2.waitKey(0) &amp; 0xFF == ord(&#39;q&#39;):
+            break
+
+    cv2.destroyAllWindows()
+
+if __name__ == &#39;__main__&#39;:
+    import sys
+    visualize_small_annotations(&#39;/home/vardan/Desktop/testing/annotations.json&#39;, &#39;/home/vardan/Desktop/testing/images&#39;, [&#39;person&#39;], [0.01])</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="data_handling.modifications.augment"><code class="name flex">
+<span>def <span class="ident">augment</span></span>(<span>folder, annotation_file, output_folder, image_percentage=50, prob_dict={'GaussianBlur': 0.35, 'CLAHE': 0.35, 'GlassBlur': 0.35, 'Equalize': 0.35, 'ISONoise': 0.35, 'MotionBlur': 0.35, 'Posterize': 0.35, 'RandomBrightnessContrast': 0.35, 'GaussNoise': 0.35, 'ImageCompression': 0.35, 'ChannelShuffle': 0.15, 'RandomToneCurve': 0.35, 'RGBShift': 0.35, 'FDA': 0.15})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Augments the dataset with some random transformations</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the folder containing the images.</dd>
+<dt><strong><code>annotation_file</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the annotation file.</dd>
+<dt><strong><code>output_folder</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the output folder.</dd>
+<dt><strong><code>image_percentage</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>percentage of the dataset to augment. These many images will be duplicated and augmented. Defaults to 50. </dd>
+<dt><strong><code>prob_dict</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>dictionary containing the probabilities of each augmentation being applied. If any augmentation is not specified in dictionary these default values will be used for that.</dd>
+</dl>
+<p>Defaults to {'GaussianBlur': 0.35,
+'CLAHE': 0.35,
+'GlassBlur': 0.35,
+'Equalize': 0.35,
+'ISONoise': 0.35,
+'MotionBlur': 0.35,
+'Posterize': 0.35,
+'RandomBrightnessContrast': 0.35,
+'GaussNoise': 0.35,
+'ImageCompression': 0.35,
+'ChannelShuffle': 0.15,
+'RandomToneCurve': 0.35,
+'RGBShift': 0.35,
+'FDA': 0.15}.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def augment(folder, annotation_file, output_folder, image_percentage=50, prob_dict={
+    &#39;GaussianBlur&#39;: 0.35,
+    &#39;CLAHE&#39;: 0.35,
+    &#39;GlassBlur&#39;: 0.35,
+    &#39;Equalize&#39;: 0.35,
+    &#39;ISONoise&#39;: 0.35,
+    &#39;MotionBlur&#39;: 0.35,
+    &#39;Posterize&#39;: 0.35,
+    &#39;RandomBrightnessContrast&#39;: 0.35,
+    &#39;GaussNoise&#39;: 0.35,
+    &#39;ImageCompression&#39;: 0.35,
+    &#39;ChannelShuffle&#39;: 0.15,
+    &#39;RandomToneCurve&#39;: 0.35,
+    &#39;RGBShift&#39;: 0.35,
+    &#39;FDA&#39;: 0.15
+}):
+    &#34;&#34;&#34;Augments the dataset with some random transformations
+
+    Args:
+        folder (str): path to the folder containing the images.
+        annotation_file (str): path to the annotation file.
+        output_folder (str): path to the output folder.
+        image_percentage (int, optional): percentage of the dataset to augment. These many images will be duplicated and augmented. Defaults to 50. 
+        prob_dict (dict, optional): dictionary containing the probabilities of each augmentation being applied. If any augmentation is not specified in dictionary these default values will be used for that.
+        Defaults to {&#39;GaussianBlur&#39;: 0.35,
+                     &#39;CLAHE&#39;: 0.35,
+                     &#39;GlassBlur&#39;: 0.35, 
+                     &#39;Equalize&#39;: 0.35,
+                     &#39;ISONoise&#39;: 0.35,
+                     &#39;MotionBlur&#39;: 0.35, 
+                     &#39;Posterize&#39;: 0.35, 
+                     &#39;RandomBrightnessContrast&#39;: 0.35, 
+                     &#39;GaussNoise&#39;: 0.35, 
+                     &#39;ImageCompression&#39;: 0.35, 
+                     &#39;ChannelShuffle&#39;: 0.15, 
+                     &#39;RandomToneCurve&#39;: 0.35, 
+                     &#39;RGBShift&#39;: 0.35, 
+                     &#39;FDA&#39;: 0.15}.
+    &#34;&#34;&#34;
+    import albumentations as A
+    import wget
+
+    if not os.path.exists(&#39;fda_target_images&#39;):
+        os.mkdir(&#39;fda_target_images&#39;)
+    wget.download(&#39;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkhfbtiVKOKUsR5QAJl33QPaSlve-I7YHraw&amp;usqp=CAU&#39;, out=&#39;fda_target_images/one.jpg&#39;)
+    wget.download(&#39;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0z3NrgPhY8Vpn-RWG7Kl7PcAxejMsBpO-Hg&amp;usqp=CAU&#39;, out=&#39;fda_target_images/two.jpg&#39;)
+
+    data = json.load(open(annotation_file))
+    categories = data[&#39;categories&#39;]
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+
+    cat_dict = {}
+    for category in categories:
+        cat_dict[category[&#39;id&#39;]] = category[&#39;name&#39;]
+
+    image_dict = {}
+    for image in images:
+        image_dict[image[&#39;id&#39;]] = image[&#39;file_name&#39;]
+
+    albumentation = {}
+    for image in images:
+        albumentation[image_dict[image[&#39;id&#39;]]] = []
+
+    for annotation in annotations:
+        bbox = annotation[&#39;bbox&#39;]
+        bbox.append(cat_dict[annotation[&#39;category_id&#39;]])
+        albumentation[image_dict[annotation[&#39;image_id&#39;]]].append(bbox)
+
+    sample_images = list(albumentation.keys())
+    image_id = 1
+    annotation_id = 1
+    image_dict = []
+    annotation_dict = []
+
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    if not os.path.exists(os.path.join(output_folder, &#39;images&#39;)):
+        os.makedirs(os.path.join(output_folder, &#39;images&#39;))
+    if not os.path.exists(os.path.join(output_folder, &#39;annotations&#39;)):
+        os.makedirs(os.path.join(output_folder, &#39;annotations&#39;))
+    
+    for image in tqdm(sample_images, desc=&#39;Augmenting images&#39;):
+        img = cv2.imread(os.path.join(folder, image))
+        height, width = img.shape[:2]
+        bbox_label = albumentation[image]
+
+        for i, bbox_lab in enumerate(bbox_label):
+            if bbox_lab[0] + bbox_lab[2] &gt; width:
+                bbox_label[i][2] = width - bbox_lab[0]
+            if bbox_lab[1] + bbox_lab[3] &gt; height:
+                bbox_label[i][3] = height - bbox_lab[1]
+
+        file_name = image
+        cv2.imwrite(os.path.join(output_folder, &#39;images&#39;, file_name), img)
+
+        image_dict.append({&#34;id&#34;: image_id, &#34;width&#34;: width, &#34;height&#34;: height, &#34;file_name&#34;: file_name, &#34;license&#34;: 0, &#34;flickr_url&#34;: &#34;&#34;, &#34;coco_url&#34;: &#34;&#34;, &#34;date_captured&#34;: 0})
+        for bbox_lab in bbox_label:
+            bbox = bbox_lab[:-1]
+            class_name = bbox_lab[-1]
+            area = bbox_lab[2] * bbox_lab[3]
+            category_id = next(item for item in categories if item[&#39;name&#39;] == class_name)[&#39;id&#39;]
+            annotation_dict.append({&#34;id&#34;: annotation_id, &#34;image_id&#34;: image_id, &#34;category_id&#34;: category_id, &#34;segmentation&#34;: [], &#34;area&#34;: area, &#34;bbox&#34;: bbox, &#34;iscrowd&#34;: 0, &#34;attributes&#34;: {&#34;occluded&#34;: False}})
+            annotation_id += 1
+        image_id += 1
+
+        transform = A.Compose([
+            A.GaussianBlur(blur_limit=(5, 7), sigma_limit=1, p=__check_occurrence(&#39;GaussianBlur&#39;, prob_dict)),
+            A.CLAHE(clip_limit=6.0, tile_grid_size=(12, 12), p=__check_occurrence(&#39;CLAHE&#39;, prob_dict)),
+            A.GlassBlur(sigma=0.7, max_delta=2, iterations=1, p=__check_occurrence(&#39;GlassBlur&#39;, prob_dict)),
+            A.Equalize(p=__check_occurrence(&#39;Equalize&#39;, prob_dict)),
+            A.ISONoise(color_shift=(0.015, 0.06), intensity=(0.15, 0.6), p=__check_occurrence(&#39;ISONoise&#39;, prob_dict)),
+            A.MotionBlur(blur_limit=(5, 9), p=__check_occurrence(&#39;MotionBlur&#39;, prob_dict)),
+            A.Posterize(p=__check_occurrence(&#39;Posterize&#39;, prob_dict)),
+            A.RandomBrightnessContrast(brightness_limit=[0, 0.25], contrast_limit=[0, 0.25], p=__check_occurrence(&#39;RandomBrightnessContrast&#39;, prob_dict)),
+            A.GaussNoise(var_limit=(15, 55), p=__check_occurrence(&#39;GaussNoise&#39;, prob_dict)),
+            A.ImageCompression(quality_lower=10, quality_upper=25, p=__check_occurrence(&#39;ImageCompression&#39;, prob_dict)),
+            A.ChannelShuffle(p=__check_occurrence(&#39;ChannelShuffle&#39;, prob_dict)),
+            A.RandomToneCurve(scale=0.9, p=__check_occurrence(&#39;RandomToneCurve&#39;, prob_dict)),
+            A.RGBShift(p=__check_occurrence(&#39;RGBShift&#39;, prob_dict)),
+            A.FDA([&#39;fda_target_images/one.jpg&#39;, &#39;fda_target_images/two.jpg&#39;], beta_limit=0.05, p=__check_occurrence(&#39;FDA&#39;, prob_dict))
+        ], bbox_params=A.BboxParams(format=&#39;coco&#39;))
+
+        if random.random() &gt; image_percentage / 100 and file_name.find(&#39;val&#39;) == -1:
+            try:
+                random.seed(random.randint(0, 5000))
+                transformed = transform(image=img, bboxes=bbox_label)
+                transformed_image = transformed[&#39;image&#39;]
+                transformed_bboxes = transformed[&#39;bboxes&#39;]
+                file_name = image[:-4] + &#39;_aug&#39; + image[-4:]
+                cv2.imwrite(os.path.join(output_folder, &#39;images&#39;, file_name), transformed_image)
+                t_h, t_w = transformed_image.shape[:2]
+                image_dict.append({&#34;id&#34;: image_id, &#34;width&#34;: t_w, &#34;height&#34;: t_h, &#34;file_name&#34;: file_name, &#34;license&#34;: 0, &#34;flickr_url&#34;: &#34;&#34;, &#34;coco_url&#34;: &#34;&#34;, &#34;date_captured&#34;: 0})
+
+                for bbox_lab in transformed_bboxes:
+                    bbox = bbox_lab[:-1]
+                    class_name = bbox_lab[-1]
+                    area = bbox_lab[2] * bbox_lab[3]
+                    category_id = next(item for item in categories if item[&#39;name&#39;] == class_name)[&#39;id&#39;]
+                    annotation_dict.append({&#34;id&#34;: annotation_id, &#34;image_id&#34;: image_id, &#34;category_id&#34;: category_id, &#34;segmentation&#34;: [], &#34;area&#34;: area, &#34;bbox&#34;: bbox, &#34;iscrowd&#34;: 0, &#34;attributes&#34;: {&#34;occluded&#34;: False}})
+                    annotation_id += 1
+
+                image_id += 1
+            except:
+                pass
+
+    coco_annotation = {&#39;categories&#39;: categories,
+                       &#39;images&#39;: image_dict,
+                       &#39;annotations&#39;: annotation_dict}
+
+    with open(os.path.join(output_folder, &#39;annotations&#39;, &#39;annotation.json&#39;), &#39;w&#39;) as outfile:
+        json.dump(coco_annotation, outfile)</code></pre>
+</details>
+</dd>
+<dt id="data_handling.modifications.ratt"><code class="name flex">
+<span>def <span class="ident">ratt</span></span>(<span>annotation_file, output_annotation_file, random_percentage=5, max_num_per_image=6, category_size={})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generates random annotations for a some percentage of the dataset</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>annotation_file</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the annotation file.</dd>
+<dt><strong><code>output_annotation_file</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the output annotation file.</dd>
+<dt><strong><code>random_percentage</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>percentage of the dataset to generate random annotations. Defaults to 5.</dd>
+<dt><strong><code>max_num_per_image</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>maximum number of random annotations per image. Defaults to 6.</dd>
+<dt><strong><code>category_size</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>dictionary containing the minimum and maximum width and height of each annotation. Defaults to {}.
+Example: {'person': [50, 100, 150, 350]} # minimum width, maximum width, minimum height, maximum height</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ratt(annotation_file, output_annotation_file, random_percentage=5, max_num_per_image=6, category_size={}):
+    &#34;&#34;&#34;Generates random annotations for a some percentage of the dataset
+    
+    Args:
+        annotation_file (str): path to the annotation file.
+        output_annotation_file (str): path to the output annotation file.
+        random_percentage (int, optional): percentage of the dataset to generate random annotations. Defaults to 5.
+        max_num_per_image (int, optional): maximum number of random annotations per image. Defaults to 6.
+        category_size (dict, optional): dictionary containing the minimum and maximum width and height of each annotation. Defaults to {}.
+            Example: {&#39;person&#39;: [50, 100, 150, 350]} # minimum width, maximum width, minimum height, maximum height
+    &#34;&#34;&#34;
+    data = json.load(open(annotation_file))
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+    categories = data[&#39;categories&#39;]
+    image_ids = []
+    widths = []
+    heights = []
+    for image in images:
+        if random.random() &gt; (1 - random_percentage / 100) and image[&#39;file_name&#39;].find(&#39;val&#39;) == -1:
+            image_ids.append(image[&#39;id&#39;])
+            widths.append(image[&#39;width&#39;])
+            heights.append(image[&#39;height&#39;])
+    print(&#39;Number of images selected for random annotations:&#39;, len(image_ids))
+
+    max_id = 0
+    annotation_list = []
+    for annotation in annotations:
+        max_id = max(annotation[&#39;id&#39;], max_id)
+        if annotation[&#39;image_id&#39;] not in image_ids:
+            annotation_list.append(annotation)
+
+    category_dict = {}
+    category_ids = []
+    for category in categories:
+        if category[&#39;name&#39;] in category_size.keys():
+            category_dict[category[&#39;id&#39;]] = category_size[category[&#39;name&#39;]]
+        category_ids.append(category[&#39;id&#39;])
+
+    for width, height, image_id in zip(widths, heights, image_ids):
+        for i in range(random.randint(0, max_num_per_image)):
+            max_id += 1
+            category = random.choice(category_ids)
+            x0 = random.randint(0, width)
+            y0 = random.randint(0, height)
+            if category not in category_dict.keys():
+                width_x = random.randint(50, width - 50)
+                height_y = random.randint(50, height - 50)
+            else:
+                width_x = random.randint(max(category_dict[category][0], 0), min(category_dict[category][1], width))
+                height_y = random.randint(max(category_dict[category][2]), min(category_dict[category][3], height))
+
+            if x0 + width_x &gt; width - 1:
+                if random.random() &gt; 0.5:
+                    x0 = width - width_x - 1
+                else:
+                    width_x = width - x0 - 1
+
+            if y0 + height_y &gt; height - 1:
+                if random.random() &gt; 0.5:
+                    y0 = height - height_y - 1
+                else:
+                    height_y = height - y0 - 1
+            
+            
+            Dict = {
+                        &#34;id&#34;: max_id,
+                        &#34;image_id&#34;: image_id,
+                        &#34;category_id&#34;: category,
+                        &#34;segmentation&#34;: [],
+                        &#34;area&#34;: width_x * height_y,
+                        &#34;bbox&#34;: 
+                        [
+                            x0,
+                            y0,
+                            width_x,
+                            height_y
+                        ],
+                        &#34;iscrowd&#34;: 0,
+                        &#34;attributes&#34;: 
+                        {
+                            &#34;occluded&#34;: False
+                        }
+                    }   
+            annotation_list.append(Dict)
+    data[&#39;annotations&#39;] = annotation_list
+    with open(output_annotation_file, &#34;w&#34;) as outfile:
+        json.dump(data, outfile)</code></pre>
+</details>
+</dd>
+<dt id="data_handling.modifications.remove_small_annotations"><code class="name flex">
+<span>def <span class="ident">remove_small_annotations</span></span>(<span>annotation_file, output_annotation_file, categories, category_ratios)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes annotations that are smaller than the specified ratio compared to the image size</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>annotation_file</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the annotation file</dd>
+<dt><strong><code>output_annotation_file</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the output annotation file</dd>
+<dt><strong><code>categories</code></strong> :&ensp;<code>list</code> of <code>strings</code></dt>
+<dd>list of categories to remove annotations from.</dd>
+<dt><strong><code>category_ratios</code></strong> :&ensp;<code>list</code> of <code>float</code></dt>
+<dd>list of categories ratios to use as threshold.</dd>
+</dl>
+<p>Example for sb2:
+categories = ['fire', 'smoke', 'person', 'person_with_head_gear', 'person_with_helmet', 'person_with_hardhat', # first is none as ids start from 1
+'backpack', 'handbag', 'suitcase', 'laptop', 'cell_phone', 'car', 'truck', 'motorcycle', 'bicycle', 'bus',
+'person_with_gloves', 'person_with_safety_googles', 'safety_vest', 'forklift', 'atm', 'helmet']
+category_ratios = [0, 0.0015, 0.0015, 0.0015, 0.0003, 0.0003, 0.0003,
+0.00075, 0.00075, 0.00075, 0.0003, 0.00015, 0.0015, 0.003, 0.0012, 0.0012, 0.003,
+0.00015, 0.00015, 0.00075, 0.0015, 0.0015, 0.0003]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_small_annotations(annotation_file, output_annotation_file, categories, category_ratios):
+    &#34;&#34;&#34;Removes annotations that are smaller than the specified ratio compared to the image size
+
+    Args:
+        annotation_file (str): path to the annotation file
+        output_annotation_file (str): path to the output annotation file
+        categories (list of strings): list of categories to remove annotations from.
+        category_ratios (list of float): list of categories ratios to use as threshold.
+
+        Example for sb2:
+        categories = [&#39;fire&#39;, &#39;smoke&#39;, &#39;person&#39;, &#39;person_with_head_gear&#39;, &#39;person_with_helmet&#39;, &#39;person_with_hardhat&#39;, # first is none as ids start from 1
+        &#39;backpack&#39;, &#39;handbag&#39;, &#39;suitcase&#39;, &#39;laptop&#39;, &#39;cell_phone&#39;, &#39;car&#39;, &#39;truck&#39;, &#39;motorcycle&#39;, &#39;bicycle&#39;, &#39;bus&#39;,
+        &#39;person_with_gloves&#39;, &#39;person_with_safety_googles&#39;, &#39;safety_vest&#39;, &#39;forklift&#39;, &#39;atm&#39;, &#39;helmet&#39;]
+        category_ratios = [0, 0.0015, 0.0015, 0.0015, 0.0003, 0.0003, 0.0003,
+        0.00075, 0.00075, 0.00075, 0.0003, 0.00015, 0.0015, 0.003, 0.0012, 0.0012, 0.003,
+        0.00015, 0.00015, 0.00075, 0.0015, 0.0015, 0.0003]
+    &#34;&#34;&#34;
+    data = json.load(open(annotation_file))
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+    categories_dict = {}
+    for cat in data[&#39;categories&#39;]:
+        if cat[&#39;name&#39;] in categories:
+            categories_dict[cat[&#39;id&#39;]] = [category_ratios[categories.index(cat[&#39;name&#39;])], 0, cat[&#39;name&#39;]]
+
+    image_dict = {}
+    for image in images:
+        image_dict[image[&#39;id&#39;]] = (image[&#39;width&#39;] * image[&#39;height&#39;], image[&#39;file_name&#39;])
+
+    annotation_list = []
+    for annotation in tqdm(annotations):
+        if annotation[&#39;category_id&#39;] in categories_dict.keys() and annotation[&#39;area&#39;] &lt; image_dict[annotation[&#39;image_id&#39;]][0] * categories_dict[annotation[&#39;category_id&#39;]][0]:
+            categories_dict[annotation[&#39;category_id&#39;]][1] += 1
+        else:
+            annotation_list.append(annotation)
+
+    data[&#39;annotations&#39;] = annotation_list
+    with open(output_annotation_file, &#39;w&#39;) as f:
+        json.dump(data, f)
+
+    print(&#39;categories removed&#39;)
+    for val in categories_dict.values():
+        print(&#34;%s: %d&#34; % (val[2], val[1]))</code></pre>
+</details>
+</dd>
+<dt id="data_handling.modifications.simclr_generate_data"><code class="name flex">
+<span>def <span class="ident">simclr_generate_data</span></span>(<span>folder, num_cluster, output_folder, checkpoint='whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth', batch_size=16, input_size=256)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generates data for a SimCLR model using KMeans clustering to pick the most representative images</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the folder containing the images</dd>
+<dt><strong><code>num_cluster</code></strong> :&ensp;<code>int</code></dt>
+<dd>number of clusters to use for KMeans clustering. Per cluster one image is chosen hence size is equal to num_clusters.</dd>
+<dt><strong><code>output_folder</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the folder to save the generated data.</dd>
+<dt><strong><code>checkpoint</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>path to the checkpoint file to load the model. Defaults to 'whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth'.</dd>
+<dt><strong><code>batch_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>batch size to use for inference. Defaults to 16.</dd>
+<dt><strong><code>input_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>size of the input image. Defaults to 256.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def simclr_generate_data(folder, num_cluster, output_folder, checkpoint=&#39;whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;, batch_size=16, input_size=256):
+    &#34;&#34;&#34;Generates data for a SimCLR model using KMeans clustering to pick the most representative images
+    
+    Args:
+        folder (str): path to the folder containing the images
+        num_cluster (int): number of clusters to use for KMeans clustering. Per cluster one image is chosen hence size is equal to num_clusters.
+        output_folder (str): path to the folder to save the generated data.
+        checkpoint (str, optional): path to the checkpoint file to load the model. Defaults to &#39;whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;.
+        batch_size (int, optional): batch size to use for inference. Defaults to 16.
+        input_size (int, optional): size of the input image. Defaults to 256.
+    &#34;&#34;&#34;
+
+    import lightly
+    from sklearn.cluster import KMeans
+
+    if not os.path.isfile(checkpoint):
+        import wget
+        print(&#39;checkpoint not found, downloading&#39;)
+        wget.download(&#39;https://storage.googleapis.com/models_boris/whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;)
+    embeddings, _, filenames = lightly.embed_images(checkpoint, input_dir=folder, collate={&#39;input_size&#39;: input_size}, loader={&#39;batch_size&#39;: batch_size})
+
+    df = pd.DataFrame(embeddings)
+    X = df.to_numpy()
+
+    clusters = min(num_cluster, len(os.listdir(folder)))
+    Kmean = KMeans(n_clusters=clusters, max_iter=500)
+    Kmean.fit(X)
+    centers = Kmean.cluster_centers_
+    res = list(Kmean.predict(X))
+
+    Dict = {}
+    for i in range(clusters):
+        Dict[i] = [10**6, &#39;&#39;]
+
+    for x, cluster, filename in zip(X, res, filenames):
+        # print(x, centers[cluster], filename)
+        val = sum([(i - j)**2 for i, j in zip(x, centers[cluster])]) ** 0.5
+        if Dict[cluster][0] &gt; val:
+            Dict[cluster] = [val, filename]
+
+    if not os.path.exists(output_folder):
+        os.mkdir(output_folder)
+
+    for _, filename in Dict.values():
+        shutil.copy(os.path.join(folder, filename), os.path.join(output_folder, filename))</code></pre>
+</details>
+</dd>
+<dt id="data_handling.modifications.simclr_remove_same_data"><code class="name flex">
+<span>def <span class="ident">simclr_remove_same_data</span></span>(<span>folder, output_folder, files_removed_folder=None, distance=0.9985, checkpoint='whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth', batch_size=16, input_size=256)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes similar images from a folder using cosing distance</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the folder containing the images</dd>
+<dt><strong><code>output_folder</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the folder to save the distinct data.</dd>
+<dt><strong><code>files_removed_folder</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>path to the folder to save the removed images. Saved only is some value passed. Defaults to None.</dd>
+<dt><strong><code>distance</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>distance to use for cosine distance. Defaults to 0.9985.</dd>
+<dt><strong><code>checkpoint</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>path to the checkpoint file to load the model. Defaults to 'whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth'.</dd>
+<dt><strong><code>batch_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>batch size to use for inference. Defaults to 16.</dd>
+<dt><strong><code>input_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>size of the input image. Defaults to 256.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def simclr_remove_same_data(folder, output_folder, files_removed_folder=None, distance=0.9985, checkpoint=&#39;whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;, batch_size=16, input_size=256):
+    &#34;&#34;&#34;Removes similar images from a folder using cosing distance
+    
+    Args:
+        folder (str): path to the folder containing the images
+        output_folder (str): path to the folder to save the distinct data.
+        files_removed_folder (str, optional): path to the folder to save the removed images. Saved only is some value passed. Defaults to None.
+        distance (float, optional): distance to use for cosine distance. Defaults to 0.9985.
+        checkpoint (str, optional): path to the checkpoint file to load the model. Defaults to &#39;whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;.
+        batch_size (int, optional): batch size to use for inference. Defaults to 16.
+        input_size (int, optional): size of the input image. Defaults to 256.&#34;&#34;&#34;
+    import lightly
+    from sklearn.metrics.pairwise import cosine_similarity
+
+    if not os.path.exists(output_folder):
+        os.mkdir(output_folder)
+    if files_removed_folder is not None and not os.path.exists(files_removed_folder):
+        os.mkdir(files_removed_folder)
+
+    if not os.path.isfile(checkpoint):
+        import wget
+        print(&#39;checkpoint not found, downloading&#39;)
+        wget.download(&#39;https://storage.googleapis.com/models_boris/whattolabel-resnet18-simclr-d32-w1.0-i-085d0693.pth&#39;)
+    embeddings, _, filenames = lightly.embed_images(checkpoint, input_dir=folder, collate={&#39;input_size&#39;: input_size}, loader={&#39;batch_size&#39;: batch_size})
+
+    df = pd.DataFrame(embeddings)
+    res = cosine_similarity(df)
+    files_to_use = []
+    files_not_to_use = []
+    Dict = {}
+    for i, row in enumerate(tqdm(res)):
+        if i in files_not_to_use:
+            continue
+        files_to_use.append(i)
+        for j in range(i+1, len(row)):
+            if i != j and row[j] &gt;= distance:
+                files_not_to_use.append(j)
+                if i not in Dict.keys():
+                    Dict[i] = [(j, row[j])]
+                else:
+                    Dict[i].append((j, row[j]))
+
+    files_not_to_use = list(set(files_not_to_use))
+    files_to_use = list(set(files_to_use))
+
+    print(&#39;Number of files removed:&#39;, len(files_not_to_use))
+
+    if files_removed_folder is not None:
+        for i in files_not_to_use:
+            shutil.copy(os.path.join(folder, filenames[i]), os.path.join(files_removed_folder, filenames[i]))
+    for i in files_to_use:
+        shutil.copy(os.path.join(folder, filenames[i]), os.path.join(output_folder, filenames[i]))</code></pre>
+</details>
+</dd>
+<dt id="data_handling.modifications.simclr_train"><code class="name flex">
+<span>def <span class="ident">simclr_train</span></span>(<span>folder, checkpoint='trained_simclr.ckpt', batch_size=8, input_size=64, epochs=100)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Trains a SimCLR model</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the folder containing the images</dd>
+<dt><strong><code>checkpoint</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>path to the checkpoint file to save the model. Defaults to 'trained_simclr.ckpt'.</dd>
+<dt><strong><code>batch_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>batch size to use for training. Defaults to 8. Use as big as possible.</dd>
+<dt><strong><code>input_size</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>size of the input image. Defaults to 64. Use as big as possible.</dd>
+<dt><strong><code>epochs</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>number of epochs to train the model. Defaults to 100.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def simclr_train(folder, checkpoint=&#39;trained_simclr.ckpt&#39;, batch_size=8, input_size=64, epochs=100):
+    &#34;&#34;&#34;Trains a SimCLR model
+    
+    Args:
+        folder (str): path to the folder containing the images
+        checkpoint (str, optional): path to the checkpoint file to save the model. Defaults to &#39;trained_simclr.ckpt&#39;.
+        batch_size (int, optional): batch size to use for training. Defaults to 8. Use as big as possible.
+        input_size (int, optional): size of the input image. Defaults to 64. Use as big as possible.
+        epochs (int, optional): number of epochs to train the model. Defaults to 100.
+    &#34;&#34;&#34;
+    import lightly
+
+    if checkpoint[-5:] != &#39;.ckpt&#39;:
+        print(&#39;checkpoint must be a .ckpt file&#39;)
+        return
+    ckpt = lightly.train_embedding_model(input_dir=folder, loader={&#39;batch_size&#39;: batch_size}, collate={&#39;input_size&#39;: input_size}, trainer={&#39;max_epochs&#39;: epochs})
+    os.rename(ckpt, checkpoint)</code></pre>
+</details>
+</dd>
+<dt id="data_handling.modifications.visualize_augment"><code class="name flex">
+<span>def <span class="ident">visualize_augment</span></span>(<span>folder, annotation_file, prob_dict={'GaussianBlur': 0.35, 'CLAHE': 0.35, 'GlassBlur': 0.35, 'Equalize': 0.35, 'ISONoise': 0.35, 'MotionBlur': 0.35, 'Posterize': 0.35, 'RandomBrightnessContrast': 0.35, 'GaussNoise': 0.35, 'ImageCompression': 0.35, 'ChannelShuffle': 0.15, 'RandomToneCurve': 0.35, 'RGBShift': 0.35, 'FDA': 0.15})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Visualizes the augmented images</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>str</code></dt>
+<dd>The folder where the images are stored</dd>
+<dt><strong><code>annotation_file</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the annotation file</dd>
+<dt><strong><code>prob_dict</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>dictionary containing the probabilities of each augmentation being applied. If any augmentation is not specified in dictionary these default values will be used for that.</dd>
+</dl>
+<p>Defaults to {'GaussianBlur': 0.35,
+'CLAHE': 0.35,
+'GlassBlur': 0.35,
+'Equalize': 0.35,
+'ISONoise': 0.35,
+'MotionBlur': 0.35,
+'Posterize': 0.35,
+'RandomBrightnessContrast': 0.35,
+'GaussNoise': 0.35,
+'ImageCompression': 0.35,
+'ChannelShuffle': 0.15,
+'RandomToneCurve': 0.35,
+'RGBShift': 0.35,
+'FDA': 0.15}.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def visualize_augment(folder, annotation_file, prob_dict={
+    &#39;GaussianBlur&#39;: 0.35,
+    &#39;CLAHE&#39;: 0.35,
+    &#39;GlassBlur&#39;: 0.35,
+    &#39;Equalize&#39;: 0.35,
+    &#39;ISONoise&#39;: 0.35,
+    &#39;MotionBlur&#39;: 0.35,
+    &#39;Posterize&#39;: 0.35,
+    &#39;RandomBrightnessContrast&#39;: 0.35,
+    &#39;GaussNoise&#39;: 0.35,
+    &#39;ImageCompression&#39;: 0.35,
+    &#39;ChannelShuffle&#39;: 0.15,
+    &#39;RandomToneCurve&#39;: 0.35,
+    &#39;RGBShift&#39;: 0.35,
+    &#39;FDA&#39;: 0.15
+}):
+    &#34;&#34;&#34;Visualizes the augmented images
+
+    Args:
+        folder (str): The folder where the images are stored
+        annotation_file (str): Path to the annotation file
+        prob_dict (dict, optional): dictionary containing the probabilities of each augmentation being applied. If any augmentation is not specified in dictionary these default values will be used for that.
+        Defaults to {&#39;GaussianBlur&#39;: 0.35,
+                     &#39;CLAHE&#39;: 0.35,
+                     &#39;GlassBlur&#39;: 0.35, 
+                     &#39;Equalize&#39;: 0.35,
+                     &#39;ISONoise&#39;: 0.35,
+                     &#39;MotionBlur&#39;: 0.35, 
+                     &#39;Posterize&#39;: 0.35, 
+                     &#39;RandomBrightnessContrast&#39;: 0.35, 
+                     &#39;GaussNoise&#39;: 0.35, 
+                     &#39;ImageCompression&#39;: 0.35, 
+                     &#39;ChannelShuffle&#39;: 0.15, 
+                     &#39;RandomToneCurve&#39;: 0.35, 
+                     &#39;RGBShift&#39;: 0.35, 
+                     &#39;FDA&#39;: 0.15}.
+    &#34;&#34;&#34;
+
+    import albumentations as A
+    import wget
+
+    if not os.path.exists(&#39;fda_target_images&#39;):
+        os.mkdir(&#39;fda_target_images&#39;)
+    if not os.path.isfile(&#39;fda_target_images/one.jpg&#39;):
+        wget.download(&#39;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkhfbtiVKOKUsR5QAJl33QPaSlve-I7YHraw&amp;usqp=CAU&#39;, out=&#39;fda_target_images/one.jpg&#39;)
+    if not os.path.isfile(&#39;fda_target_images/two.jpg&#39;):
+        wget.download(&#39;https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0z3NrgPhY8Vpn-RWG7Kl7PcAxejMsBpO-Hg&amp;usqp=CAU&#39;, out=&#39;fda_target_images/two.jpg&#39;)
+
+    data = json.load(open(annotation_file))
+    categories = data[&#39;categories&#39;]
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+
+    cat_dict = {}
+    for category in categories:
+        cat_dict[category[&#39;id&#39;]] = category[&#39;name&#39;]
+
+    image_dict = {}
+    for image in images:
+        image_dict[image[&#39;id&#39;]] = image[&#39;file_name&#39;]
+
+    albumentation = {}
+    for image in images:
+        albumentation[image_dict[image[&#39;id&#39;]]] = []
+
+    for annotation in annotations:
+        bbox = annotation[&#39;bbox&#39;]
+        bbox.append(cat_dict[annotation[&#39;category_id&#39;]])
+        albumentation[image_dict[annotation[&#39;image_id&#39;]]].append(bbox)
+
+    sample_images = list(albumentation.keys())
+    
+    for image in sample_images:
+        img = cv2.imread(os.path.join(folder, image))
+        height, width = img.shape[:2]
+        bbox_label = albumentation[image]
+
+        for i, bbox_lab in enumerate(bbox_label):
+            if bbox_lab[0] + bbox_lab[2] &gt; width:
+                bbox_label[i][2] = width - bbox_lab[0]
+            if bbox_lab[1] + bbox_lab[3] &gt; height:
+                bbox_label[i][3] = height - bbox_lab[1]
+
+        transform = A.Compose([
+            A.GaussianBlur(blur_limit=(5, 7), sigma_limit=1, p=__check_occurrence(&#39;GaussianBlur&#39;, prob_dict)),
+            A.CLAHE(clip_limit=6.0, tile_grid_size=(12, 12), p=__check_occurrence(&#39;CLAHE&#39;, prob_dict)),
+            A.GlassBlur(sigma=0.7, max_delta=2, iterations=1, p=__check_occurrence(&#39;GlassBlur&#39;, prob_dict)),
+            A.Equalize(p=__check_occurrence(&#39;Equalize&#39;, prob_dict)),
+            A.ISONoise(color_shift=(0.015, 0.06), intensity=(0.15, 0.6), p=__check_occurrence(&#39;ISONoise&#39;, prob_dict)),
+            A.MotionBlur(blur_limit=(5, 9), p=__check_occurrence(&#39;MotionBlur&#39;, prob_dict)),
+            A.Posterize(p=__check_occurrence(&#39;Posterize&#39;, prob_dict)),
+            A.RandomBrightnessContrast(brightness_limit=[0, 0.25], contrast_limit=[0, 0.25], p=__check_occurrence(&#39;RandomBrightnessContrast&#39;, prob_dict)),
+            A.GaussNoise(var_limit=(15, 55), p=__check_occurrence(&#39;GaussNoise&#39;, prob_dict)),
+            A.ImageCompression(quality_lower=10, quality_upper=25, p=__check_occurrence(&#39;ImageCompression&#39;, prob_dict)),
+            A.ChannelShuffle(p=__check_occurrence(&#39;ChannelShuffle&#39;, prob_dict)),
+            A.RandomToneCurve(scale=0.9, p=__check_occurrence(&#39;RandomToneCurve&#39;, prob_dict)),
+            A.RGBShift(p=__check_occurrence(&#39;RGBShift&#39;, prob_dict)),
+            A.FDA([&#39;fda_target_images/one.jpg&#39;, &#39;fda_target_images/two.jpg&#39;], beta_limit=0.05, p=__check_occurrence(&#39;FDA&#39;, prob_dict))
+        ], bbox_params=A.BboxParams(format=&#39;coco&#39;))
+
+        random.seed(random.randint(0, 5000))
+        transformed = transform(image=img, bboxes=bbox_label)
+        transformed_image = transformed[&#39;image&#39;]
+        transformed_bboxes = transformed[&#39;bboxes&#39;]
+        augmented = __visualize(transformed_image, transformed_bboxes)
+        cv2.imshow(&#39;original&#39;, img)
+        cv2.imshow(&#39;augmented&#39;, augmented)
+        if cv2.waitKey(0) &amp; 0xFF == ord(&#39;q&#39;):
+            break
+
+    cv2.destroyAllWindows()</code></pre>
+</details>
+</dd>
+<dt id="data_handling.modifications.visualize_small_annotations"><code class="name flex">
+<span>def <span class="ident">visualize_small_annotations</span></span>(<span>image_folder, annotation_file, categories, category_ratios, category_colors=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Visualizes annotations that are smaller than the specified ratio compared to the image size</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>image_folder</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the folder containing the images</dd>
+<dt><strong><code>annotation_file</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to the annotation file</dd>
+<dt><strong><code>categories</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>list of categories to remove annotations from.</dd>
+<dt><strong><code>category_ratios</code></strong> :&ensp;<code>list</code> of <code>float</code></dt>
+<dd>list of categories ratios to use as threshold.</dd>
+<dt><strong><code>category_colors</code></strong> :&ensp;<code>list</code> of <code>tuples</code>, optional</dt>
+<dd>list of color tuples to use for drawing on image per category. Defaults to None.</dd>
+</dl>
+<p>Example for sb2:
+cats = ['fire', 'smoke', 'person', 'person_with_head_gear', 'person_with_helmet', 'person_with_hardhat', # first is none as ids start from 1
+'backpack', 'handbag', 'suitcase', 'laptop', 'cell_phone', 'car', 'truck', 'motorcycle', 'bicycle', 'bus',
+'person_with_gloves', 'person_with_safety_googles', 'safety_vest', 'forklift', 'atm', 'helmet']
+category_ratios = [0.0015, 0.0015, 0.0015, 0.0003, 0.0003, 0.0003, # first is zero as ids start from 1
+0.00075, 0.00075, 0.00075, 0.0003, 0.00015, 0.0015, 0.003, 0.0012, 0.0012, 0.003,
+0.00015, 0.00015, 0.00075, 0.0015, 0.0015, 0.0003]
+r, g, b, y = (0, 0, 255), (0, 255, 0), (255, 0, 0), (0, 255, 255)
+category_colors = [b, b, g, r, r, r,
+b, b, b, b, b, y, y, y, y, y,
+r, r, r, y, y, r]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def visualize_small_annotations(image_folder, annotation_file, categories, category_ratios, category_colors=None):
+    &#34;&#34;&#34;Visualizes annotations that are smaller than the specified ratio compared to the image size
+
+    Args:
+        image_folder (str): path to the folder containing the images
+        annotation_file (str): path to the annotation file
+        categories (list of str): list of categories to remove annotations from.
+        category_ratios (list of float): list of categories ratios to use as threshold.
+        category_colors (list of tuples, optional): list of color tuples to use for drawing on image per category. Defaults to None.
+
+        Example for sb2:
+        cats = [&#39;fire&#39;, &#39;smoke&#39;, &#39;person&#39;, &#39;person_with_head_gear&#39;, &#39;person_with_helmet&#39;, &#39;person_with_hardhat&#39;, # first is none as ids start from 1
+        &#39;backpack&#39;, &#39;handbag&#39;, &#39;suitcase&#39;, &#39;laptop&#39;, &#39;cell_phone&#39;, &#39;car&#39;, &#39;truck&#39;, &#39;motorcycle&#39;, &#39;bicycle&#39;, &#39;bus&#39;,
+        &#39;person_with_gloves&#39;, &#39;person_with_safety_googles&#39;, &#39;safety_vest&#39;, &#39;forklift&#39;, &#39;atm&#39;, &#39;helmet&#39;]
+        category_ratios = [0.0015, 0.0015, 0.0015, 0.0003, 0.0003, 0.0003, # first is zero as ids start from 1
+            0.00075, 0.00075, 0.00075, 0.0003, 0.00015, 0.0015, 0.003, 0.0012, 0.0012, 0.003,
+            0.00015, 0.00015, 0.00075, 0.0015, 0.0015, 0.0003]
+        r, g, b, y = (0, 0, 255), (0, 255, 0), (255, 0, 0), (0, 255, 255)
+        category_colors = [b, b, g, r, r, r,
+            b, b, b, b, b, y, y, y, y, y,
+            r, r, r, y, y, r]
+    &#34;&#34;&#34;
+    data = json.load(open(annotation_file))
+    images = data[&#39;images&#39;]
+    annotations = data[&#39;annotations&#39;]
+    categories_dict = {}
+    category_colors = category_colors if category_colors is not None else [(0, 0, 255)] * len(categories)
+    for cat in data[&#39;categories&#39;]:
+        if cat[&#39;name&#39;] in categories:
+            categories_dict[cat[&#39;id&#39;]] = (category_ratios[categories.index(cat[&#39;name&#39;])],
+                                          cat[&#39;name&#39;],
+                                          category_colors[categories.index(cat[&#39;name&#39;])])
+    image_dict = {}
+    for image in images:
+        image_dict[image[&#39;id&#39;]] = (image[&#39;width&#39;] * image[&#39;height&#39;], image[&#39;file_name&#39;])
+
+    for annotation in annotations:
+        if annotation[&#39;category_id&#39;] in categories_dict.keys() and annotation[&#39;area&#39;] &lt; image_dict[annotation[&#39;image_id&#39;]][0] * categories_dict[annotation[&#39;category_id&#39;]][0]:
+    
+            img = cv2.imread(os.path.join(image_folder, image_dict[annotation[&#39;image_id&#39;]][1]))
+            bbox = annotation[&#39;bbox&#39;]
+            h, w = img.shape[:2]
+            cv2.rectangle(img, (int(bbox[0]), int(bbox[1])), (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3])), categories_dict[annotation[&#39;category_id&#39;]][2], 2)
+            cv2.putText(img, categories_dict[annotation[&#39;category_id&#39;]][1], (int(w/2), int(h/2)), cv2.FONT_HERSHEY_SIMPLEX, 1, categories_dict[annotation[&#39;category_id&#39;]][2], 1)
+            
+            if max(h, w) &gt; 1024:
+                ratio = 1024 / max(h, w)
+                img = cv2.resize(img, None, fx = ratio, fy = ratio)
+            cv2.imshow(&#39;image&#39;, img)
+            if cv2.waitKey(0) &amp; 0xFF == ord(&#39;q&#39;):
+                break
+    cv2.destroyAllWindows()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="data_handling" href="../data_handling.html">data_handling</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="data_handling.modifications.augment" href="#data_handling.modifications.augment">augment</a></code></li>
+<li><code><a title="data_handling.modifications.ratt" href="#data_handling.modifications.ratt">ratt</a></code></li>
+<li><code><a title="data_handling.modifications.remove_small_annotations" href="#data_handling.modifications.remove_small_annotations">remove_small_annotations</a></code></li>
+<li><code><a title="data_handling.modifications.simclr_generate_data" href="#data_handling.modifications.simclr_generate_data">simclr_generate_data</a></code></li>
+<li><code><a title="data_handling.modifications.simclr_remove_same_data" href="#data_handling.modifications.simclr_remove_same_data">simclr_remove_same_data</a></code></li>
+<li><code><a title="data_handling.modifications.simclr_train" href="#data_handling.modifications.simclr_train">simclr_train</a></code></li>
+<li><code><a title="data_handling.modifications.visualize_augment" href="#data_handling.modifications.visualize_augment">visualize_augment</a></code></li>
+<li><code><a title="data_handling.modifications.visualize_small_annotations" href="#data_handling.modifications.visualize_small_annotations">visualize_small_annotations</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

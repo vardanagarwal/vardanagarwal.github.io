@@ -7,3 +7,4 @@ layout: default
 ## Projects
 
 [seg_mask_modifs](seg_mask_modifs.html)
+[data_handling](data_handling.html)
