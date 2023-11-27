@@ -1,1 +1,0 @@
-## Repository for hosting documentations of projects
