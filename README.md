@@ -1,4 +1,4 @@
-Agency Jekyll theme
+Agency Jekyll theme for hosting PitchGod
 ====================
 
 Agency theme based on [Agency bootstrap theme ](https://startbootstrap.com/template-overviews/agency/)
