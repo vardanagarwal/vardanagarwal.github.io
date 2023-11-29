@@ -5,7 +5,7 @@ url: https://github.com/jeromelachaud/freelancer-theme
 description: "Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description."
 keywords: "your keywords, separated by commas"
 skills: "Find Potential Clients"
-meta_author: Agarwal Vardan
+meta_author: Pitch God
 
 # Google webmaster tools
 google_verify:
@@ -25,8 +25,9 @@ disqus_shortname: myshortname
 
 # Color settings (hex-codes without the leading hash-tag)
 color:
-  primary: 8f34eb #80B3FF
-  primary-rgb: "143,52,235" #"128,179,255"
+  primary: bddcf0 #80B3FF
+  primary-rgb: "189, 220, 240" #"128,179,255"
+  gradient: cebdf0
   secondary: 2c3e50 #FD6E8A
   secondary-dark: 233140 #A2122F
 
