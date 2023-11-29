@@ -26,7 +26,7 @@ disqus_shortname: myshortname
 # Color settings (hex-codes without the leading hash-tag)
 color:
   primary: 8f34eb #80B3FF
-  primary-rgb: "24,288,156" #"128,179,255"
+  primary-rgb: "143,52,235" #"128,179,255"
   secondary: 2c3e50 #FD6E8A
   secondary-dark: 233140 #A2122F
 
@@ -69,3 +69,28 @@ defaults:
       type: "posts"
     values:
       permalink: ""
+
+people1:
+- name: Rajesh Gupta
+  pic: 1
+  position: Lead Marketer
+  social:
+    - title: twitter
+      url: #
+    - title: facebook
+      url: #
+    - title: stack-overflow
+      url: #
+
+people2:
+- name: Vardan Agarwal
+  pic: 2
+  position: Lead Developer
+  social:
+    - title: twitter
+      url: #
+    - title: facebook
+      url: #
+    - title: linkedin
+      url: #
+
