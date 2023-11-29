@@ -22,7 +22,7 @@ a:focus,
 a:active,
 a.active {
     outline: 0;
-    color: linear-gradient(#bddcf0, #cebdf0);
+    color: linear-gradient(to right, #77C9D4, #57BC90);
 }
 
 h1,
@@ -64,7 +64,7 @@ hr.star-light {
 
 hr.star-light:after {
     color: #fff;
-    background-color: linear-gradient(#bddcf0, #cebdf0);
+    background-color: linear-gradient(to bottom right, #77C9D4, #57BC90);
 }
 
 hr.star-primary {
@@ -83,7 +83,7 @@ hr.star-primary:after {
 header {
     text-align: center;
     color: #fff;
-    background: linear-gradient(#bddcf0, #cebdf0);
+    background: linear-gradient(to bottom right, #77C9D4, #57BC90);
 }
 
 header .container {
@@ -182,7 +182,7 @@ section h2 {
 
 section.success {
     color: #fff;
-    background: linear-gradient(#bddcf0, #cebdf0);
+    background: linear-gradient(to bottom right, #77C9D4, #57BC90);
 }
 
 @media(max-width:767px) {
@@ -293,7 +293,7 @@ section.success {
 .btn-outline:active,
 .btn-outline.active {
     border: solid 2px #fff;
-    color: linear-gradient(#bddcf0, #cebdf0);
+    color: linear-gradient(to bottom right, #77C9D4, #57BC90);
     background: #fff;
 }
 
@@ -346,7 +346,7 @@ section.success {
 }
 
 .floating-label-form-group-with-focus label {
-    color: linear-gradient(#bddcf0, #cebdf0);
+    color: linear-gradient(to bottom right, #77C9D4, #57BC90);
 }
 
 form .row:first-child .floating-label-form-group {
@@ -491,7 +491,7 @@ footer .footer-below {
 
 .team-member p {
     margin-top: 0;
-    color: {{ site.color.primary}};
+    color: linear-gradient(to right, #77C9D4, #57BC90);
 }
 
 .navbar-nav>.active>a {
