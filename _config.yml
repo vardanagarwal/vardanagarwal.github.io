@@ -28,7 +28,7 @@ color:
   primary: 77C9D4 # unused now edit directly in main.css
   primary-rgb: "189, 220, 240" #"128,179,255"
   gradient: 57BC90 # unused now edit directly in main.css
-  secondary: 019179 #FD6E8A
+  secondary: 4287f5 #FD6E8A
   secondary-dark: 015249 #A2122F
 
 # Footer settings
